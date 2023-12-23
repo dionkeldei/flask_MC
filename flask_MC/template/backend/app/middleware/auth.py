@@ -27,7 +27,7 @@ def auth():
     if not check_open_route(request.path) and not request.path.startswith('/static/'):
         if request.method == 'OPTIONS':
             return Response()
-        if request.path not in ['/user/login'] and request.method != 'OPTIONS':
+        if request.path not in ['/users/login'] and request.method != 'OPTIONS':
             try:
                 user = jwt.decode(request.headers.get('Authorization'), os.environ.get('SECRET_KEY'), algorithms=["HS256"])
             except:
