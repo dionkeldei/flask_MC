@@ -11,11 +11,10 @@ import os
 import sys
 import time
 from flask import render_template, redirect, url_for, request, abort
-from database.db import DbConn
 import bcrypt
 import jwt
 import json
-import requests
+from models.user import User
 
 
 #Campañas
@@ -37,4 +36,18 @@ def createUser():
     return {
         "success": True,
         "message": "User created"
+    }
+
+def showAllUsers():
+    users = User.query.all()
+    return {
+        "success": True,
+        "data": User.serialize_list(users)
+    }
+
+def showUser(id):
+    user = User.query.get(id)
+    return {
+        "success": True,
+        "data": user.serialize()
     }

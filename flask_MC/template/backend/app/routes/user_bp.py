@@ -12,6 +12,9 @@ from controllers.UserController import *
 user_bp = Blueprint('user_bp', __name__)
 
 # User
+
+user_bp.route('/', methods=['GET'])(showAllUsers)
+user_bp.route('/<int:id>', methods=['GET'])(showUser)
 user_bp.route('/login', methods=['POST'])(loginUser)
 user_bp.route('/me', methods=['GET','OPTIONS'])(showMe)
 user_bp.route('/create', methods=['POST','OPTIONS'])(createUser)

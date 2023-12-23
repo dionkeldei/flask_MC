@@ -9,7 +9,6 @@ Copyright - 2023
 
 import os
 from flask import request, abort, Response
-from database.db import DbConn
 import bcrypt
 import jwt
 import json

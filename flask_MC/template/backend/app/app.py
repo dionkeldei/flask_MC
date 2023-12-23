@@ -10,6 +10,7 @@ Copyright - 2023
 from flask import Flask, render_template, abort, request, send_from_directory
 from flask_cors import CORS, cross_origin
 from config import appConfig
+from database.db_conn import db, dbConfig
 
 appConfig()
 
@@ -20,7 +21,13 @@ app = Flask(__name__)
 CORS(app, expose_headers='Authorization')
 
 app.config.from_object('config')
-app.register_blueprint(user_bp, url_prefix='/user')
+
+app.config['SQLALCHEMY_DATABASE_URI'] = dbConfig()
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
+# BLUEPRINTS
+app.register_blueprint(user_bp, url_prefix='/users')
 
 @app.before_request
 def middleware():
