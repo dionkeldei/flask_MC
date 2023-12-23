@@ -12,6 +12,11 @@ class User(db.Model, Serializer):
 
     def serialize(self):
         d = Serializer.serialize(self)
+        del d['password']
+        return d
+    
+    def serializeComplete(self): # To retrieve password ( FOR LOGIN )
+        d = Serializer.serialize(self)
         return d
 
     def __repr__(self) -> str:

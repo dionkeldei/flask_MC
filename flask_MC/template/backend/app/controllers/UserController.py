@@ -14,14 +14,14 @@ from flask import  request
 import bcrypt
 import jwt
 import json
-from models.user import findUser, allUsers, findUserWhere, setUser
+from models.user import User, findUser, allUsers, findUserWhere, setUser
 
 
 def login():
     req = request.json
     password = req['password']
 
-    users = findUserWhere({"email": req['email']})
+    users = User.query.filter(User.email==req['email']).all()
 
     if len(users) == 0:
         ret = {
@@ -31,10 +31,8 @@ def login():
         }
         return ret
 
-    user = users[0]
+    user = users[0].serializeComplete()
     stored_password = user['password']
-    print(stored_password)
-    print(password)
 
     success = bcrypt.checkpw(password.encode('utf-8'), stored_password.encode('utf-8'))
 
